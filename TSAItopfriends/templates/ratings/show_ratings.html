@@ -1,0 +1,31 @@
+{% if candidates_list %}
+    <h3> Top ten Friends in GSyCBook: </h3>
+  	<table border="1" cellspacing="0" cellpadding="4">
+	<tr>
+		<th>Position:</th>
+		<th>Nick:</th>
+	 	<th>Average:</th>
+	 	<th>Total votes:</th>
+	</tr>
+    {% for c in candidates_list|dictsortreversed:"avg"|slice:":10" %}
+		<tr>
+			<td>{{forloop.counter}}# </td>
+			<td>{{ c.name }}</td>
+			<td>{{ c.avg }}</td>
+			<td>{{ c.votes }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+	
+{% else %}
+    <p>No ratings are available.</p>
+{% endif %}
+
+{% comment %} 
+Depending on if he has already voted him or not, a different footer will be shown
+{% endcomment %}
+{% block footer %}
+
+
+{% endblock %}
+

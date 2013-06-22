@@ -1,0 +1,20 @@
+{% extends "index_transparentia.html" %}
+{% block content %}
+<h1>404: Page not found</h1>
+
+<h3>
+	{% if messages %}
+	<ul>
+	    {% for message in messages %}
+	    <li>{{ message }}</li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
+</h3>
+
+<h1> 
+
+	<a href = "{{ request.get_host }}/profiles/show_all_profiles"> Back to main page </a> 
+
+</h1>
+{% endblock %}

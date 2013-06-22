@@ -1,0 +1,154 @@
+	{% if city_profile_items %}
+		<p>Hola {{ profile_nick }}, los siguientes amigos coinciden contigo en algunas de sus ciudades favoritas:</p>
+		<table border="1" cellspacing="0" cellpadding="4">
+			<tr>
+				<th>A</th>
+			 	<th>También le gustán</th>
+			</tr>
+			{% for city_profile_item in city_profile_items %}
+				<tr>
+					<td>{{ city_profile_item.nick }}</td>
+					<td>{{ city_profile_item.city_names|join:", " }}</td>
+				</tr>
+			{% endfor %}
+			
+			
+
+		</table>
+		
+		{% if nick_profile_items %}
+			<table border="1" cellspacing="0" cellpadding="4">
+			<tr>
+				<th>City</th>
+			 	<th>Users who like it</th>
+			</tr>
+				{% for nick_profile_item in nick_profile_items %}
+					<tr>
+						<td>{{ nick_profile_item.city }}</td>
+						<td>{{ nick_profile_item.nicks|join:", " }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		{% endif %}
+
+		<div id="map" style="width: 500px; height: 400px"></div>
+			
+		<!--Based on http://code.google.com/intl/es/apis/maps/documentation/services.html#Geocoding -->
+		<script src="http://maps.google.com/
+		maps?file=api&amp;v=2&amp;hl=es&amp;key=ABQIAAAA3KYIs_1_2lX8vAfc9WMXVBT-DEzyxHGQxkSwOPecCISOBsSL6hQXnWR1GKJIPTaUOZxdPyUdHCZzKQ"
+		type="text/javascript"></script>
+		
+		<script type="text/javascript">
+		var map = null;
+		var geocoder = null;
+		//TODO: Check if there is a way to get the python list as a JS array in the proper encoding
+		function load() 
+		{
+		  		if (GBrowserIsCompatible()) 
+		  	  	{
+		    		map = new GMap2(document.getElementById("map"));
+		    		map.setCenter(new GLatLng(37.4419, -122.1419), 3);
+		    		//map.setMapType(G_HYBRID_MAP);
+		    		map.addControl(new GSmallMapControl());
+		    		map.addControl(new GMapTypeControl());
+		    		    		
+		    		geocoder = new GClientGeocoder();
+		
+					if (geocoder) 
+					{
+						//Ask for latitude and longitude of each city, and paint a marker for each
+		/*				addresses = {{shared_city_names}};
+						for (i=0; i<addresses.length; i++)
+						{
+							geocoder.getLatLng(addresses[i],
+							function(point) 
+							{
+								if (point) 
+								{
+									map.setCenter(point, 1);
+									var marker = new GMarker(point);
+									map.addOverlay(marker);
+									marker.openInfoWindowHtml(address);
+								}
+							});
+						}*/
+		
+						//Ask for latitude and longitude of each city, and paint a marker for each
+						//addresses = {{shared_city_names}};
+						{% for nick_profile_item in nick_profile_items %}
+						//for (i=0; i<addresses.length; i++)
+						//{
+							geocoder.getLatLng("{{ nick_profile_item.city }}",
+							function(point) 
+							{
+								if (point) 
+								{
+									map.setCenter(point, 3);
+									var marker = new GMarker(point);
+									//drozas: Add a marker and an event which shows the name of the city if you click on it
+									map.addOverlay(marker);
+									GEvent.addListener(marker, "click", function() 
+											{
+								  		    	this.openInfoWindowHtml("Other friends who like {{ nick_profile_item.city }} : {{ nick_profile_item.nicks|join:", " }}");
+											});
+								}
+							});
+		
+		
+						{% endfor %}
+						//}
+					}
+				}
+		  				
+		}
+		
+		//Code from: http://designaesthetic.com/2007/07/06/how-to-load-and-unload-google-maps-without-using-the-body-tag/
+		//BEGIN NEW CODE TO AVOID USING BODY TAG FOR LOAD/UNLOAD
+		
+		function addLoadEvent(func) {
+		  var oldonload = window.onload;
+		  if (typeof window.onload != 'function') {
+		    window.onload = func;
+		  } else {
+		    window.onload = function() {
+		      if (oldonload) {
+		        oldonload();
+		      }
+		      func();
+		    }
+		  }
+		}
+		
+		addLoadEvent(load());
+		
+		// arrange for our onunload handler to 'listen' for onunload events
+		if (window.attachEvent) {
+		        window.attachEvent("onunload", function() {
+		                GUnload();      // Internet Explorer
+		        });
+		} else {
+		
+		        window.addEventListener("unload", function() {
+		                GUnload(); // Firefox and standard browsers
+		        }, false);
+		
+		}
+		
+		// END NEW CODE TO AVOID USING BODY TAG FOR LOAD/UNLOAD
+		
+		</script>
+				
+	{% else %}
+		<p>Hola {{ profile_nick }}, Ninguna de tus ciudades favoritas coincide con la de tus amigos</p>
+	{% endif %}
+	
+	<p>
+	<form action="http://{{ server }}/favcities/profiles/update_cities?profile_nick={{ profile_nick }}" method="POST">
+		
+		Tus ciudades favoritas:
+		<input type="text" name="city_names" value='{{ profile_city_names|join:", " }}' size="50" />
+		
+		<input type="submit" value='cambiar' />
+
+	</form>
+	</p>

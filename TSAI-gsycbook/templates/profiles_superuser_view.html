@@ -1,0 +1,64 @@
+{% extends "index_transparentia.html" %}
+
+
+{% block content %}
+
+ <div class="content"> 
+ 	<div class="item">
+		<h1>
+		
+		    {% if u.get_full_name %}
+				{{ u.get_full_name }} 
+			{% endif %}
+			
+			{% if u.username %}
+				({{ u.username }})
+			{% endif %}
+		</h1>
+		
+		<ul>
+		
+		    {% if profile.city %}
+		       <li>City: {{ profile.city }}</li>
+		    {% endif %}
+		    
+		    {% if u.email %}
+		       <li>E-mail: {{ u.email|urlize }}</li>
+		    {% endif %}
+		    
+		    {% if profile.website %}
+		       <li>Website: {{ profile.website|urlize }}</li>
+		    {% endif %}
+		    
+		    {% if profile.fav_cite %}
+		       <li>Favourite quote: "{{ profile.fav_cite }}"</li>
+		    {% endif %}
+		    
+		    {% if profile.fav_number %}
+		       <li>Favourite number: {{ profile.fav_number }}</li>
+		    {% endif %}
+		    
+		</ul>
+	</div>
+
+
+</div>
+
+	<!-- TODO: Ask for function greater_than  -->
+	{% ifnotequal profile.getNumberOfFriends 0 %}
+	<div class="sidenav">
+		<h1> Friends ({{ profile.getNumberOfFriends }}) : </h1>
+		<ul>
+		{% for f in friends %}
+			
+			{% if f.user.username %}
+					<li><a href = "{{ request.get_host }}/profiles/show_profile/{{ f.user.username }}">{{ f.user.get_full_name }}</a></li>
+			{% endif %}	
+						           
+		{% endfor %}
+		</ul>
+	</div>
+	{% endifnotequal %}
+</div>
+{% endblock %}
+

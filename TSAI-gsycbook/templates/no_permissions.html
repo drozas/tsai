@@ -1,0 +1,9 @@
+{% extends user.get_profile.template %}
+{% block content %}
+<h1>You do not have permissions to see this profile: </h1>
+	{% if already_req %}
+		You have already requested to be his friend...be patient ;D.
+	{% else %}
+		<a href = "{{ request.get_host }}/profiles/{{ user.username }}/addfriend/?nick={{ user_requested.username }}"> Click here to request friendship of {{ user_requested.get_full_name }}  </a>
+	{% endif %}
+{% endblock %}

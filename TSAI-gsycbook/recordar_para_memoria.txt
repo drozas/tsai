@@ -1,0 +1,7 @@
+- Gestión de generación de links con RequestContext
+- Errors management
+- TopTenFriends:
+	Brief description: application which shows the top ten friends vote for other users.
+		You can vote only once, and you can vote only to your friends. In order to be able to show the ranking and
+		vote you need to install the application.
+		

@@ -1,0 +1,102 @@
+{% extends user.get_profile.template %}
+
+
+{% block content %}
+
+ <div class="content"> 
+ 	<div class="item">
+		<h1>
+		
+		    {% if u.get_full_name %}
+				{{ u.get_full_name }} 
+			{% endif %}
+			
+			{% if u.username %}
+				({{ u.username }})
+			{% endif %}
+		</h1>
+		
+		<ul>
+		
+		    {% if profile.city %}
+		       <li>City: {{ profile.city }}</li>
+		    {% endif %}
+		    
+		    {% if u.email %}
+		       <li>E-mail: {{ u.email|urlize }}</li>
+		    {% endif %}
+		    
+		    {% if profile.website %}
+		       <li>Website: {{ profile.website|urlize }}</li>
+		    {% endif %}
+		    
+		    {% if profile.fav_cite %}
+		       <li>Favourite quote: "{{ profile.fav_cite }}"</li>
+		    {% endif %}
+		    
+		    {% if profile.fav_number %}
+		       <li>Favourite number: {{ profile.fav_number }}</li>
+		    {% endif %}
+		    
+		</ul>
+	</div>
+
+
+
+<!--#drozas: Add a friend from the target user profile through a link in the view.-->
+<!--#This is an obsolete method, because in the specification they state to make a friend-->
+<!--#from the "source" friend through a form. It may makes sense in the future (with sessions)-->
+<!--<h1>-->
+<!--	<a href = "../my_nick/addfriend?nick={{ profile.nick }}">Add as a friend</a>-->
+<!--</h1>-->
+
+<!--This functionality is gonna be moved to the main menu-->
+<!--<h1>Add a friend:</h1>-->
+<!--<form action="../{{ u.username }}/addfriend/" method="get">-->
+<!-- <fieldset>-->
+<!--	<label for="nick" class="required">Nick: </label> -->
+<!--	<input type="text" id="nick" name="nick" size="30" maxlength="50" />-->
+<!--</fieldset>-->
+<!-- <input type="submit" value="Send data" class="default" />-->
+<!--</form>-->
+	{% if app_contents %}
+	 <div class="item">
+			<h1>List of your associated applications</h1>
+			
+			<TABLE>
+			{% for a in app_contents %}
+			<THEAD>
+			     <TR><td> {{ a.name }} </td></TR>
+			</THEAD>	
+				
+			<TBODY>
+			     <tr><td>{{ a.content|safe }}</td></tr>
+			     
+			</TBODY>
+			               
+			{% endfor %}
+			</TABLE>
+
+		<h1> <a href = "{{ request.get_host }}/profiles/show_all_profiles"> Back to menu </a> </h1>
+	</div>
+	{% endif %}
+</div>
+
+
+	<!-- TODO: Ask for function greater_than  -->
+	{% ifnotequal profile.getNumberOfFriends 0 %}
+	<div class="sidenav">
+		<h1> Friends ({{ profile.getNumberOfFriends }}) : </h1>
+		<ul>
+		{% for f in friends %}
+			
+			{% if f.user.username %}
+				<li><a href = "{{ request.get_host }}/profiles/show_profile/{{ f.user.username }}">{{ f.user.get_full_name }}</a></li>
+			{% endif %}	
+						           
+		{% endfor %}
+		</ul>
+	</div>
+	{% endifnotequal %}
+	{% endblock %}
+

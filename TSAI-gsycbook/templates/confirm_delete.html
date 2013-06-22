@@ -1,0 +1,20 @@
+{% extends user.get_profile.template %}
+{% block content %}
+<!--  It was necessary to create one more view, because if we redirected directly from JS from delete_my_profile view
+no content was returned and an exception raised-->
+
+<script type="text/javascript">
+function confirmAction()
+{
+	if (confirm ("Are you sure do you want to delete it?. If you confirm this step all your data will be removed and you will be redirected to the front-page"))
+	{
+		window.location="{{ request.get_host }}/profiles/delete_my_profile/";
+	}else{
+		window.location="{{ request.get_host }}/profiles/show_all_profiles";		
+	}
+			
+}
+
+window.onload = confirmAction()
+</script> 
+{% endblock %}

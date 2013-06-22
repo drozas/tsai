@@ -1,0 +1,49 @@
+P5:
+
+- Ejercicio 2:
+	Lo he diseñado como:
+		- Añadir un enlace "hacer amigo" en el perfil de la persona que estás visitando.
+		- Esto nos lleva a una url: 	<a href = "../my_nick/addfriend?nick={{ profile.nick }}">Add as a friend</a>
+		donde hacemos una relacion A (yo) soy amigo de B (parámetro GET).
+			Dudas:
+				- Puesto que todavía no utilizamos sesiones...¿es necesario mantener de momento mi_nick? - puesto que estoy visitando el perfil del otro, y aquí no dispongo de dicha información si no la he guardado previamente.
+				- ¿Es correcto interpretar la relación de esta manera?: he escogido una N:N recursiva no simétrica, de cara al proceso de "aceptar como amigo".
+
+- Ejercicio extra:
+	- Preguntar por la redirección
+	
+P7:
+
+- Ejercicio 2:
+	- He creado dos recursos, uno para listas de amigos y otro para borrar/mostrar un perfil amigo
+	En la primera, si elimino DELETE del matching, devuelve una página vacía:
+	(r'^friends/(?P<profile_nick>\w+)/$', FriendshipList(permitted_methods=('GET','DELETE'))),
+	- ¿Hay algún atributo especial que nos devuelva la raíz para los enlaces? (tipo _SERVER['DOCUMENT_ROOT'] en PHP)
+	
+	- Problemas con la configuración de HTTP Basic
+	Traceback (most recent call last):
+
+  File "/usr/lib/python2.5/site-packages/django/core/servers/basehttp.py", line 277, in run
+    self.result = application(self.environ, self.start_response)
+
+  File "/usr/lib/python2.5/site-packages/django/core/servers/basehttp.py", line 634, in __call__
+    return self.application(environ, start_response)
+
+  File "/usr/lib/python2.5/site-packages/django/core/handlers/wsgi.py", line 228, in __call__
+    self.load_middleware()
+
+  File "/usr/lib/python2.5/site-packages/django/core/handlers/base.py", line 44, in load_middleware
+    raise exceptions.ImproperlyConfigured, 'Middleware module "%s" does not define a "%s" class' % (mw_module, mw_classname)
+
+ImproperlyConfigured: Middleware module "django.contrib.auth.middleware" does not define a "BasicAuthenticationMiddleware" class
+
+-P8
+ - Ex.3: Errors managing: 404/500 shortcuts vs HttpResponse, HttpResponseRedirect, HttpResponseForbidden, HttpResponseBadRequest
+ 	- Is it possible to choose a template with HttpResponse, HttpResponseRedirect, HttpResponseForbidden, HttpResponseBadRequest
+ 	
+-P9_
+	ej.1
+		- ¿Por qué no salta excepción cuando se intenta salvar un campo con cadena vacía si Blank=false?
+
+-PFinal
+	- Problemas con unique_together en topfriends: no aparece en el create table

@@ -1,0 +1,7 @@
+{% extends "ratings/show_ratings.html" %}
+{% comment %} 
+If a vote has been emitted, show information about it
+{% endcomment %}
+{% block footer %}
+	You have already voted for {{profile_nick}} with {{rating.points}} points on {{rating.votation_date|date:"D d M Y"}} at {{rating.votation_date|date:"H:i"}}.
+{% endblock %}

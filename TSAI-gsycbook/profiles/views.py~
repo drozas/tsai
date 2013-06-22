@@ -1,0 +1,22 @@
+# Create your views here.
+from django.http import HttpResponse
+from gsycbook.profiles.models import Profile
+def say_hello(request):
+     return HttpResponse('Hola')
+def say_bye(request, name):
+     return HttpResponse('Adios %s'%name)
+def show_pepe(request):
+	p= Profile.objects.get(nombre='Pepe')
+	return HttpResponse('Hola %s'%p.nombre)
+def show_profile(request, nick_search):
+	p= Profile.objects.get(nick = nick_search)
+	return HttpResponse('Hola %s'%p.nombre)
+def show_all(request):
+	profiles= Profile.objects.all()
+	text = "Profiles \n"
+	for p in profiles:
+		text = text + p.nombre + "\n"
+	return HttpResponse('Hola %s'%text)
+
+
+

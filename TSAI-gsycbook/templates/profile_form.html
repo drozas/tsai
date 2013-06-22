@@ -1,0 +1,48 @@
+{% extends "index_transparentia.html" %}
+{% block content %}
+
+
+<h1>Create a profile: </h1>
+
+<form action="/profiles/create" method="post">
+ <fieldset>
+	<label for="id_name" class="required">Name(*): </label> 
+	<input type="text" id="id_name" name="name" size="30" maxlength="200" />
+   
+	<label for="id_last_name" class="required">Last name(*): </label> 
+	<input type="text" id="id_last_name" name="last_name" size="30" maxlength="200" />
+
+	<br>
+
+	<label for="id_nick" class="required">Nick(*): </label> 
+	<input type="text" id="id_nick" name="nick" size="30" maxlength="50" />
+	
+	<label for="id_password">Password(*):</label>
+	<input type="password" name="password" value="" id="id_password">
+	
+	<br>
+	<label for="id_fav_cite" class="required">Favourite quote: </label> 
+	<input type="text" id="id_fav_cite" name="fav_cite" size="50" maxlength="400" />
+
+	<br>
+
+	<label for="id_city" class="required">City: </label> 
+	<input type="text" id="id_city" name="city" size="30" maxlength="70" />
+	
+	<label for="id_fav_number" class="required">Favourite number(*): </label> 
+	<input type="text" id="id_fav_number" name="fav_number" size="5" maxlength="1" />
+
+	<br>
+
+	<label for="id_email" class="required">E-mail(*): </label> 
+	<input type="text" id="id_email" name="email" size="30" maxlength="70" />
+	
+	<label for="id_website" class="required">Personal website: </label> 
+	<input type="text" id="id_website" name="website" size="30" maxlength="100" />
+
+ </fieldset>
+ <input type="submit" value="Send data" class="default" />
+</form>
+(*) Mandatory fields
+<h1> <a href = "/"> Back to login page </a> </h1>
+{% endblock %}

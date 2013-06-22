@@ -1,0 +1,67 @@
+{% extends "index_transparentia.html" %}
+
+{% block content %}
+
+ <div class="content"> 
+
+	
+		{% if users %}
+			<div class="item">
+				<ul>
+				<h1>Users in the system:</h1>
+				
+				{% for u in users %}
+					{% if u.username %}
+						<li><a href = "{{ request.get_host }}/profiles/show_profile/{{ u.username }}"> {{ u.get_full_name }}  </a></li>
+					{% endif %}
+				{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+		
+		{% if apps %}
+			<div class="item">
+			<h1>Installed applications:</h1>
+				<ul>
+					{% for a in apps %}
+						<li>{{ a.name }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+
+	<div class="item">
+		<h1>Register a new application: </h1>
+	
+		<form action="{{ request.get_host }}/profiles/register_application/" method="post">
+		 <fieldset>
+			<label for="app_name" class="required">Application name: </label> 
+			<input type="text" id="app_name" name="app_name" size="40" maxlength="100" />
+			
+			<br>
+			
+			<label for="app_url" class="required">Application url: </label> 
+			<input type="text" id="app_url" name="app_url" size="40" maxlength="255" />
+		   
+		   	<br>
+		   	
+		   	 </fieldset>
+		 	<input type="submit" value="Register application" class="default" />
+		 </form>
+	</div>
+
+</div>
+
+<div class="sidenav">
+
+
+			<h1>Superuser tools</h1>
+			<ul>
+				<li><a href = "{{ request.get_host }}/admin">Access to django administration panel</a></li>
+
+			</ul>
+
+</div>		
+
+	
+{% endblock %}

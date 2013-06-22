@@ -1,0 +1,134 @@
+{% extends user.get_profile.template %}
+
+{% block content %}
+
+<script type="text/javascript">
+function confirmAction()
+{
+	if (!confirm ("Are you sure do you want to delete it?"))
+		window.location="{{ request.get_host }}/profiles/show_all_profiles"
+}
+</script> 
+
+
+ <div class="content"> 
+
+		{% if friendship_requests %}
+			<div class="item">
+		
+			<h1> The following people requested to be your friend </h1>
+			<h2> Click on the link to confirm. Take care of your privacy...be selective! </h2>
+			<ul>
+			{% for p in friendship_requests %}
+				<li>
+					<a href = "{{ request.get_host }}/profiles/confirm_friendship_request/?nick={{ p.user.username }}">{{ p.user.get_full_name }}</a>
+				</li>
+			{% endfor %}
+			</ul>
+			</div>
+		{% endif %}
+		
+
+		
+		
+		{% if users %}
+			<div class="item">
+				<ul>
+				<h1>List of friends:</h1>
+				
+				{% for u in users %}
+					
+					
+					<li>
+					<h3>
+						{{ u.get_full_name }} 
+					</h3>
+					
+					{% if u.username %}
+						<a href = "{{ request.get_host }}/profiles/show_profile/{{ u.username }}"> See profile </a> -
+						<a href = "{{ request.get_host }}/profiles/{{ u.username }}/delete"> Delete as a friend </a>
+					{% endif %}
+					</li>
+				               
+				{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+
+		{% if my_requests %}
+			<div class="item">
+				<h1> You have requested to be friend of the following people: </h1>
+				<ul>
+				{% for p in my_requests %}
+					<li>
+						{{ p.user.get_full_name }}
+					</li>
+				{% endfor %}
+				</ul>
+			</div>		
+		{% endif %}
+</div>
+		
+<div class="sidenav">
+	
+	<h1>Add a friend:</h1>
+	<form action="{{ request.get_host }}/profiles/{{ user.username }}/addfriend/" method="get">
+	 <fieldset>
+		<label for="nick" class="required">Nick: </label> 
+		<input type="text" id="nick" name="nick" size="10" maxlength="50" />
+	</fieldset>
+	 <input type="submit" value="Send data" class="default" />
+	</form>
+	
+	
+	{% if apps_assoc %}
+	
+		<h1>Installed applications:</h1>
+		<ul>
+		{% for a in apps_assoc %}
+			<li>{{ a.name }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+	
+	{% if rest_apps %}
+	
+		<h1>Available applications:</h1>
+		<form action="{{ request.get_host }}/profiles/associate_application/" method="post">
+			<fieldset>
+				<label for="id_application" class="required">Select an application for loading: </label> 
+					<select name="id_application">
+						{% for a in rest_apps %}
+							<option value="{{ a.pk }}">{{ a.name }}</option> 
+						{% endfor %}
+					</select>
+			</fieldset>
+			
+		 	<input type="submit" value="Load application" class="default" />
+		</form>
+	
+	{% endif %}
+	
+	 	
+	<h1>Account options </h1>
+		<ul>
+			<li>	<a href = "{{ request.get_host }}/profiles/confirm_delete_my_profile/"> Delete my profile</a>
+			</li>
+			<li>
+
+					<form action="{{ request.get_host }}/profiles/change_template/" method="post">
+						<fieldset>
+							<label for="id_template" class="required">Change the template</label> 
+								<select name="id_template">
+										<option value="index_transparentia.html">Transparentia (default)</option>
+										<option value="index_coffee.html">Coffee&Cream</option> 
+										<option value="index_dark.html">Basic Dark</option> 
+								</select>
+						</fieldset>
+						
+					 	<input type="submit" value="Load template" class="default" />
+				</form>
+			</li>
+	   </ul>
+</div>	
+	{% endblock %}

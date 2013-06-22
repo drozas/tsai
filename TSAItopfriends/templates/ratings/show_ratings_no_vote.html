@@ -1,0 +1,35 @@
+{% extends "ratings/show_ratings.html" %}
+{% comment %} 
+If no vote has been emitted, show a combobox
+{% endcomment %}
+{% block footer %}
+	{% ifnotequal visitor_nick profile_nick %}
+	 
+		<p>
+		<form action="http://{{ server }}/ratings/vote/" method="POST">
+			
+			Vote for this user:
+			<input type="hidden" name="vote_from" value="{{ visitor_nick }}">
+			<input type="hidden" name="vote_to" value="{{ profile_nick }}">
+			{% comment %} 
+				TODO: Look for a easy way to create the combo box with a loop in the template
+			{% endcomment %}
+			<select name="points">
+				<option value="1">1</option> 
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option> 
+			</select>
+			
+			<input type="submit" value='rate' />
+	
+		</form>
+		</p>
+	{% endifnotequal %}
+{% endblock %}

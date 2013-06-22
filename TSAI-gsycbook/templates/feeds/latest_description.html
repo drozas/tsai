@@ -1,0 +1,23 @@
+    {% if obj.profile.city %}
+       <li>City: {{ obj.profile.city }}</li>
+    {% endif %}
+    
+    {% if obj.email %}
+       <li>E-mail: {{ obj.email }}</li>
+    {% endif %}
+    
+    {% if obj.profile.website %}
+       <li>Website: {{ obj.profile.website }}</li>
+    {% endif %}
+    
+    {% if obj.profile.fav_cite %}
+       <li>Favourite quote: "{{ obj.profile.fav_cite }}"</li>
+    {% endif %}
+    
+    {% if obj.profile.fav_number %}
+       <li>Favourite number: {{ obj.profile.fav_number }}</li>
+    {% endif %}
+    
+    {% if obj.profile.getNumberOfFriends %}
+    	<li>Friends: {{ obj.profile.getNumberOfFriends }}</li>
+    {% endif %}

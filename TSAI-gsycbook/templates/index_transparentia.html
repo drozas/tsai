@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+<meta name="description" content="description"/>
+<meta name="keywords" content="keywords"/> 
+<meta name="author" content="author"/> 
+<link rel="stylesheet" type="text/css" href="/files/transparentia.css" media="screen"/>
+<title>GSyC-Book</title>
+</head>
+<body>
+<!-- Adapted from http://kunxi.org/archives/2007/09/learning-django-by-example4-first-user-authenticated/ -->
+	{% if user.is_authenticated %}
+		<p align="right">Hi, 
+		{% if not user.is_superuser %}
+			{{ user.get_full_name|default_if_none:"friend"}}
+		{% else %} 
+			superuser
+		{% endif %}
+
+		[<a href= "{{ request.get_host }}/accounts/logout">Logout</a>, 
+		{% if not user.is_superuser %}
+			<a href= "{{ request.get_host }}/profiles/show_profile/{{user.username}}">My Profile</a>,
+		{% endif %}
+		<a href= "{{ request.get_host }}/profiles/show_all_profiles">Main menu</a>]</p>
+	{% endif %}
+	
+	<div class="container">
+	
+	<div class="main">
+
+		<div class="header">
+		
+			<div class="title">
+				<h1>GSyC-Book</h1>
+			</div>
+
+		</div>
+		
+
+	 
+   {% block content %}
+      
+      
+   {% endblock %}
+   
+   		
+		<div class="clearer"><span></span></div>
+   	</div>
+   		<div class="footer">&copy; 2009 <a href="/">GSyCBook.com</a>. Template design by <a href="http://templates.arcsin.se">Arcsin</a>
+	</div>
+
+</body>
+</html>
